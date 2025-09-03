@@ -10,16 +10,17 @@ interface ButtonProps {
     onpress: () => void,
     style ?: {},
     inactive ?: boolean,
-    isLoading ?: boolean
+    isLoading ?: boolean,
+    textColor?: string
 }
 
-const Button = ({renderLeftIcon, renderRightIcon, icon, onpress, text, style, inactive, isLoading}: ButtonProps) => {
+const Button = ({renderLeftIcon, renderRightIcon, icon, onpress, text, style, inactive, isLoading,textColor}: ButtonProps) => {
     return(
-        <TouchableOpacity style={[ styles.button, style, {backgroundColor:inactive ? COLORS.inactive :'black' }]} onPress={onpress}>  
+        <TouchableOpacity style={[ styles.button,  {backgroundColor:inactive ? COLORS.inactive :'black',  }, style]} onPress={onpress}>  
 
             {renderLeftIcon ? icon : null}   
 
-            <Text style={styles.text}>{text}</Text>
+            <Text style={[styles.text, {color:textColor? textColor :'white'}]}>{text}</Text>
 
             {renderRightIcon ? icon : null}  
 
@@ -48,7 +49,7 @@ const styles = StyleSheet.create({
     },
     text:{
         color:COLORS.white,
-        fontFamily: 'regular',
+        fontFamily: 'medium',
         fontSize: SIZES.normal
     }
 

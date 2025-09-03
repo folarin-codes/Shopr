@@ -6,13 +6,14 @@ const COLORS = {
     white:'white',
     secondary :'808080',
     inactive : '#CCCCCC',
-    lightGrey : '#808080'
+    lightGrey : '#808080',
+    input :'#999999'
 
 }
 
 const SIZES = {
     large :45,
-    heading:24,
+    heading:30,
     normal:16,
     small :14
 }

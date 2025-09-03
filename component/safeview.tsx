@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, ViewStyle } from "react-native";
+import { Keyboard, StyleSheet, TouchableWithoutFeedback, ViewStyle } from "react-native";
 import { SafeAreaView, SafeAreaViewProps } from "react-native-safe-area-context";
 
 interface SafeViewProps extends SafeAreaViewProps {
@@ -9,12 +9,18 @@ interface SafeViewProps extends SafeAreaViewProps {
 
 const SafeView = ({ children, style, ...props }: SafeViewProps) => {
     return (
-        <SafeAreaView 
+
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <SafeAreaView 
             style={[styles.container, style]} 
-            {...props}
-        >
+            {...props}>
+
             {children}
+            
         </SafeAreaView>
+
+        </TouchableWithoutFeedback>
+   
     );
 };
 

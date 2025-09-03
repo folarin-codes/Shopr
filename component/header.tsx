@@ -44,13 +44,14 @@ const styles = StyleSheet.create({
     heading : {
         fontFamily : 'bold',
         fontSize : SIZES.heading,
-        color : COLORS.primary
+        color : COLORS.primary,
     },
 
     text:{
-        fontFamily:'light',
+        fontFamily:'regular',
         color: COLORS.lightGrey,
-        fontSize:SIZES.small
+        fontSize:SIZES.normal,
+        marginTop:10
         
 
     }

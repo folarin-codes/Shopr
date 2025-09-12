@@ -1,6 +1,7 @@
 import { COLORS, SIZES } from "@/constants/theme";
+import { router } from "expo-router";
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 
 
 interface HeaderProp {
@@ -18,9 +19,9 @@ const Header = ({title, icon, renderIcon, text}: HeaderProp)=>{
 
 
             {
-                renderIcon ? <View style={{marginBottom:20}}>
+                renderIcon ? <Pressable hitSlop={20} onPress={()=> router.back()} style={{marginBottom:20}}>
                     {icon}
-                </View> : null
+                </Pressable> : null
             }
 
             <Text style={styles.heading}>{title}</Text>

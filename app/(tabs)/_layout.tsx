@@ -1,9 +1,18 @@
-import { Stack } from "expo-router";
+import { Tabs } from "expo-router";
+
 
 
 
 const TabLayOut = ()=>{
-    return <Stack/>
+    return (
+        <Tabs screenOptions={{headerShown:false}}>
+            <Tabs.Screen options={{
+             
+            }} name="home"/>
+            <Tabs.Screen name="profile"/>
+
+        </Tabs>
+    )
 }
 
 export default TabLayOut;

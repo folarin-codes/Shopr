@@ -6,7 +6,7 @@ import { COLORS, SIZES } from "@/constants/theme";
 import signUpSchema from "@/validations/auth/sign-up.validation";
 import { Link, router } from "expo-router";
 import { useState } from "react";
-import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Image, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, View } from "react-native";
 import * as z from "zod";
 
 
@@ -53,7 +53,6 @@ const SignUp = ()=>{
 
   const onBlur = (field: keyof SignUpFormData,value:string)=>{
 
-     // Validate field on change (optional - you can also validate onBlur)
     if (value.trim()) {
       validateField(field, value);
     }
@@ -88,7 +87,7 @@ const SignUp = ()=>{
             <View style={styles.secondaryContainer}>
                 <Text style={styles.policy}>By signing up you agree to our <Text style={styles.bold}>Terms, Privacy Policy, </Text>and <Text style={styles.bold}>Cookie Use</Text> </Text>
 
-                <Button text="Create an account" inactive onpress={()=> router.push('/')}/>
+                <Button text="Create an account" inactive onpress={()=> router.push('/home')}/>
 
                 <View style={styles.cont}>
 
@@ -97,13 +96,13 @@ const SignUp = ()=>{
                     <View style={styles.dash}/>
                 </View> 
 
-                <Button text="Sign Up with Google" onpress={()=> router.push('/')} style={{backgroundColor:'white',borderColor:COLORS.inactive, borderWidth:1 }} textColor={COLORS.primary} />   
+                <Button renderLeftIcon icon={<Image style={{height:24, width:24}} source={require('../../assets/images/google8.png')}/>} text="Sign Up with Google" onpress={()=> router.push('/')} style={{backgroundColor:'white',borderColor:COLORS.inactive, borderWidth:1 }} textColor={COLORS.primary} />   
 
 
-                <Button text="Sign Up with Facebook" style={{backgroundColor:'#1877F2'}} onpress={()=> router.push('/')} />  
+                <Button renderLeftIcon icon={<Image style={{height:24, width:24}} source={require('../../assets/images/facebook.png')}/>} text="Sign Up with Facebook" style={{backgroundColor:'#1877F2'}} onpress={()=> router.push('/')} />  
 
 
-                    <Link href={'/'} style={{alignSelf:'center'}}>
+                    <Link href={'./sign-in'} style={{alignSelf:'center'}}>
                      <Text style={styles.policy}>Already have an account? <Text style={styles.bold} >Login</Text></Text>    
 
                     </Link>

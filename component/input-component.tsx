@@ -47,7 +47,7 @@ const InputComponent = ({label , renderIcon, icon, keyboardType='default', place
                         <TouchableOpacity onPress={togglePasswordVisibility}>
 
                             {
-                               textVisible ? <Feather name="eye-off" size={24} color="black" /> : <Feather name="eye" size={24} color="black" />
+                               textVisible ? <Feather name="eye" size={24} color="black" /> : <Feather name="eye-off" size={24} color="black" />
                             }
 
                         

@@ -8,8 +8,9 @@ type KeyboardType = 'default' | 'numeric' | 'email-address' | 'ascii-capable' | 
 
 interface Input{
 
-    label : string,
-    renderIcon? : boolean,
+    label? : string,
+    renderIconLeft? : boolean,
+    renderIconRight? : boolean,
     icon ?: React.ReactNode,
     keyboardType?: KeyboardType,
     placeHolder ?: string,
@@ -20,14 +21,15 @@ interface Input{
    
     inputType ?: string,
     textVisible?: boolean,
-    togglePasswordVisibility ?: ()=> void
+    togglePasswordVisibility ?: ()=> void,
+    style?: {}
 
 }
 
 
 
 
-const InputComponent = ({label , renderIcon, icon, keyboardType='default', placeHolder, error, value, onChangeText, onBlur,  inputType,textVisible=false, togglePasswordVisibility}: Input)=>{
+const InputComponent = ({label , renderIconLeft, renderIconRight, icon, keyboardType='default', placeHolder, error, value, onChangeText, onBlur,  inputType,textVisible=false, togglePasswordVisibility, style}: Input)=>{
 
     const [focused, setFocused] = useState(false)
     
@@ -35,10 +37,18 @@ const InputComponent = ({label , renderIcon, icon, keyboardType='default', place
 
     return(
         <View style={styles.container}>
-            <Text style={styles.label}>{label}</Text>
+
+            {
+                label && <Text style={styles.label}>{label}</Text>
+            }
+            
 
             <View  style={[styles.input, {borderColor: focused ? COLORS.primary : COLORS.input}, {borderColor:error ?'red':COLORS.input}]} >
-                <TextInput hitSlop={30} autoCorrect={false}  style={{width:'90%'}} secureTextEntry={textVisible} value={value} onChangeText={onChangeText} placeholder={placeHolder} keyboardType={keyboardType}  onBlur={()=> {setFocused(false); onBlur() }} onFocus={()=>  setFocused(true)} />
+
+                {
+                    renderIconLeft && icon
+                }
+                <TextInput hitSlop={30} autoCorrect={false}  style={style} secureTextEntry={textVisible} value={value} onChangeText={onChangeText} placeholder={placeHolder} keyboardType={keyboardType}  onBlur={()=> {setFocused(false); onBlur() }} onFocus={()=>  setFocused(true)} />
 
                     {
                         inputType == 'password' ? 
@@ -58,6 +68,11 @@ const InputComponent = ({label , renderIcon, icon, keyboardType='default', place
                         :
 
                         null
+                    }
+
+
+                    {
+                    renderIconRight && icon
                     }
 
 

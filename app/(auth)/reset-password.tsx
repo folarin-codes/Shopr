@@ -4,6 +4,7 @@ import InputComponent from "@/component/input-component";
 import SafeView from "@/component/safeview";
 import resetPasswordSchema from "@/validations/auth/reset-password.validation";
 import AntDesign from '@expo/vector-icons/AntDesign';
+import { router } from "expo-router";
 import { useState } from "react";
 import { KeyboardAvoidingView, Platform, View } from "react-native";
 import z from "zod";
@@ -113,7 +114,8 @@ const ResetPassword = ()=>{
                        <View style={{flex:.1}}>
 
                         <View>
-                            <Button text="Continue"/>
+                            <Button text="Continue" onpress={()=> {router.push('/home');
+                            }}/>
                         </View>
 
                        </View>

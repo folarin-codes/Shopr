@@ -73,7 +73,7 @@ const Home = ()=>{
             <View style={styles.heading}>
                 <Text style={styles.headingText}>Discover</Text>
 
-                <Pressable onPress={()=> router.push('/notification')}>
+                <Pressable hitSlop={20} onPress={()=> router.push('/notification')}>
                     <Bell/>
                 </Pressable>
                 

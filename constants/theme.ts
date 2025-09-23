@@ -15,7 +15,8 @@ const SIZES = {
     large :45,
     heading:30,
     normal:16,
-    small :14
+    small :14,
+    header:24
 }
 
 export { COLORS, SIZES };

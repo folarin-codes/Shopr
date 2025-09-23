@@ -45,10 +45,16 @@ const InputComponent = ({label , renderIconLeft, renderIconRight, icon, keyboard
 
             <View  style={[styles.input, {borderColor: focused ? COLORS.primary : COLORS.input}, {borderColor:error ?'red':COLORS.input}]} >
 
-                {
+          
+
+                <View style={{flexDirection:'row', alignItems:"center"}}>
+                    {
                     renderIconLeft && icon
                 }
-                <TextInput hitSlop={30} autoCorrect={false}  style={style} secureTextEntry={textVisible} value={value} onChangeText={onChangeText} placeholder={placeHolder} keyboardType={keyboardType}  onBlur={()=> {setFocused(false); onBlur() }} onFocus={()=>  setFocused(true)} />
+                    <TextInput hitSlop={30} autoCorrect={false}  style={style} secureTextEntry={textVisible} value={value} onChangeText={onChangeText} placeholder={placeHolder} keyboardType={keyboardType}  onBlur={()=> {setFocused(false); onBlur() }} onFocus={()=>  setFocused(true)} />
+
+                </View>
+     
 
                     {
                         inputType == 'password' ? 

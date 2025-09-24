@@ -11,6 +11,7 @@ import HomeFocused from '../../assets/images/svg/home-focused.svg';
 import SavedFocused from '../../assets/images/svg/saved-focused.svg';
 import Saved from '../../assets/images/svg/saved.svg';
 import Search from '../../assets/images/svg/search.svg';
+import SearchFocused from '../../assets/images/svg/searchActive.svg';
 
 
 const TabIcon= ({focused, iconActive, iconInactive, iconName} )=>{
@@ -53,16 +54,13 @@ const TabLayOut = ()=>{
              tabBarIcon:({focused, color})=> <TabIcon
 
              iconName={'Search'}
-             iconActive={<Search/>}
+             iconActive={<SearchFocused/>}
              iconInactive={<Search/>}
              focused={focused}
                          
              />
-             
             
-             
-               
-             
+         
             }} name="search"/>     
              <Tabs.Screen options={{
                 title:'',

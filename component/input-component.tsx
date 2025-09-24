@@ -51,7 +51,7 @@ const InputComponent = ({label , renderIconLeft, renderIconRight, icon, keyboard
                     {
                     renderIconLeft && icon
                 }
-                    <TextInput hitSlop={30} autoCorrect={false}  style={style} secureTextEntry={textVisible} value={value} onChangeText={onChangeText} placeholder={placeHolder} keyboardType={keyboardType}  onBlur={()=> {setFocused(false); onBlur() }} onFocus={()=>  setFocused(true)} />
+                    <TextInput hitSlop={30} autoCorrect={false}  style={[style, {fontFamily:'medium', color:COLORS.primary}]}  secureTextEntry={textVisible} value={value} onChangeText={onChangeText} placeholder={placeHolder} keyboardType={keyboardType}  onBlur={()=> {setFocused(false); onBlur() }} onFocus={()=>  setFocused(true)} />
 
                 </View>
      

@@ -7,7 +7,8 @@ const COLORS = {
     secondary :'808080',
     inactive : '#CCCCCC',
     lightGrey : '#808080',
-    input :'#999999'
+    input :'#999999',
+    red:'#ED1010'
 
 }
 

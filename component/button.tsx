@@ -16,7 +16,13 @@ interface ButtonProps {
 
 const Button = ({renderLeftIcon, renderRightIcon, icon, onpress, text, style, inactive, isLoading,textColor}: ButtonProps) => {
     return(
-        <TouchableOpacity style={[ styles.button,  {backgroundColor:inactive ? COLORS.inactive :'black',  }, style]} onPress={onpress}>  
+        <TouchableOpacity style={[ styles.button,  {backgroundColor:inactive ? COLORS.inactive :'black',  }, style]} onPress={()=>{
+
+            if(!inactive){
+                onpress()
+            }
+
+        }}>  
 
             {renderLeftIcon ? icon : null}   
 

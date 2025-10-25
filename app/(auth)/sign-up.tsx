@@ -5,12 +5,11 @@ import SafeView from "@/component/safeview";
 import { COLORS, SIZES } from "@/constants/theme";
 import signUpSchema from "@/validations/auth/sign-up.validation";
 import { Link, router } from "expo-router";
-import { useState } from "react";
-import { Image, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, View } from "react-native";
+import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
+import { useMemo, useState } from "react";
+import { ActivityIndicator, Image, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, View } from "react-native";
 import * as z from "zod";
-
-
-
+import { auth } from '../../firebaseConfig';
 
 const SignUp = ()=>{
 
@@ -21,16 +20,33 @@ const SignUp = ()=>{
     const[signUpForm , setSignUpForm] = useState<SignUpFormData>({
         fullName:'',
         email:'',
-        password:""
+        password:"",
+        confirmPassword:"",
     })
+
+    const [loading , setLoading] = useState(false);
 
 
   const [errors, setErrors] = useState<Partial<Record<keyof SignUpFormData, string>>>({});
   const [passwordVisible, setPasswordVisible] = useState(false)
 
 
+
+
   const validateField = (field: keyof SignUpFormData, value: string) => {
     try {
+
+
+       if (field === 'confirmPassword') {
+      // For confirmPassword, validate against the password field
+      if (value !== signUpForm.password) {
+        setErrors(prev => ({ 
+          ...prev, 
+          confirmPassword: 'Passwords do not match' 
+        }));
+        return;
+      }
+    }
       // Validate single field
       signUpSchema.shape[field].parse(value);
       // Clear error if validation passes
@@ -41,6 +57,8 @@ const SignUp = ()=>{
           ...prev, 
           [field]: error.issues[0]?.message 
         }));
+
+        console.log('error ', error)
       }
     }
   };
@@ -61,7 +79,50 @@ const SignUp = ()=>{
   }
 
 
- 
+    const isFormValid = useMemo(() => {
+    try {
+      signUpSchema.parse(signUpForm);
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }, [signUpForm]);
+
+
+  const handleCreateAccount = async (email:string, password:string)=>{
+
+    try{
+
+      setLoading(true)
+
+      await createUserWithEmailAndPassword(auth,email, password).then((userCredentials)=>{
+
+        const user = userCredentials.user;
+
+        return user
+
+      }).then((user)=>{
+
+        updateProfile(user, {
+          displayName: signUpForm.fullName
+        })
+
+      }).catch(e=> console.log('catch error ', e))
+
+    }
+    catch(e){
+
+      console.log('error ', e)
+
+    }
+    finally{
+
+      setLoading(false)
+
+    }
+
+  }
+
 
 
 
@@ -82,12 +143,20 @@ const SignUp = ()=>{
 
                 <InputComponent togglePasswordVisibility={()=> setPasswordVisible(!passwordVisible)} inputType="password" textVisible={passwordVisible} onBlur={()=> onBlur('password', signUpForm.password)} error={errors.password} value={signUpForm.password} onChangeText={(password:string)=> handleInputChange("password",password )} placeHolder="Enter Password" label="Password"/>
 
+                  <InputComponent togglePasswordVisibility={()=> setPasswordVisible(!passwordVisible)} inputType="password" textVisible={passwordVisible} onBlur={()=> onBlur('confirmPassword', signUpForm.confirmPassword)} error={errors.confirmPassword} value={signUpForm.confirmPassword} onChangeText={(password:string)=> handleInputChange("confirmPassword",password )} placeHolder="Confirm Password" label="Confirm password"/>
+
             </KeyboardAvoidingView>
 
             <View style={styles.secondaryContainer}>
                 <Text style={styles.policy}>By signing up you agree to our <Text style={styles.bold}>Terms, Privacy Policy, </Text>and <Text style={styles.bold}>Cookie Use</Text> </Text>
 
-                <Button text="Create an account" inactive onpress={()=> router.push('/home')}/>
+                <Button text="Create an account" inactive={!isFormValid} 
+
+
+onpress={()=> handleCreateAccount(signUpForm.email, signUpForm.confirmPassword)}
+                
+                
+                />
 
                 <View style={styles.cont}>
 
@@ -112,10 +181,16 @@ const SignUp = ()=>{
 
             </View>
 
+
+            <View style={{position:'absolute', top:'40%', right:'45%'}} >
+              <ActivityIndicator size={'large'} color={COLORS.primary} animating={loading}/>
+
+            </View>
+
             </ScrollView>
 
 
-          
+
 
         </SafeView>
     )

@@ -1,10 +1,17 @@
+import { auth } from '@/firebaseConfig';
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
+import { onAuthStateChanged } from 'firebase/auth';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import Splash from "./splash";
 
-
 export default function RootLayout() {
+
+  onAuthStateChanged(auth, (user)=>{
+
+    console.log('my user ', user)
+
+  })
 
 
   const [loaded , error] = useFonts({

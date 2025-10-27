@@ -1,13 +1,16 @@
 import Button from "@/component/button";
 import Header from "@/component/header";
 import InputComponent from "@/component/input-component";
+import Loader from "@/component/loader";
 import SafeView from "@/component/safeview";
 import { COLORS, SIZES } from "@/constants/theme";
+import { SaveItem } from "@/utils/secureStore";
 import signUpSchema from "@/validations/auth/sign-up.validation";
 import { Link, router } from "expo-router";
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { useMemo, useState } from "react";
-import { ActivityIndicator, Image, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Image, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, View } from "react-native";
+import Toast from "react-native-toast-message";
 import * as z from "zod";
 import { auth } from '../../firebaseConfig';
 
@@ -58,7 +61,7 @@ const SignUp = ()=>{
           [field]: error.issues[0]?.message 
         }));
 
-        console.log('error ', error)
+        // console.log('error ', error)
       }
     }
   };
@@ -103,11 +106,28 @@ const SignUp = ()=>{
 
       }).then((user)=>{
 
+        SaveItem('user', JSON.stringify(user))
+
         updateProfile(user, {
           displayName: signUpForm.fullName
+        }).then(res =>{
+
+          console.log('result ', res)
+          Toast.show({type:'success', text1:"You have ceated an account successfully"})
+
+          router.navigate('/home')
+
         })
 
-      }).catch(e=> console.log('catch error ', e))
+      }).catch(e=> {
+        
+        console.log('catch error ', e)
+
+        Toast.show({type:'error', text1:e?.message})
+
+
+
+      })
 
     }
     catch(e){
@@ -131,7 +151,7 @@ const SignUp = ()=>{
         <SafeView>
             <Header title="Create an account" text="Let's create your account."/>
 
-            <ScrollView>
+            <ScrollView showsVerticalScrollIndicator={false}>
 
        
 
@@ -181,11 +201,9 @@ onpress={()=> handleCreateAccount(signUpForm.email, signUpForm.confirmPassword)}
 
             </View>
 
+            <Loader loading={loading} />
 
-            <View style={{position:'absolute', top:'40%', right:'45%'}} >
-              <ActivityIndicator size={'large'} color={COLORS.primary} animating={loading}/>
 
-            </View>
 
             </ScrollView>
 

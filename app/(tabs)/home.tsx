@@ -61,10 +61,14 @@ type categoryType = typeof shopCategories[number]
 
 const Home = ()=>{
 
+   
+
 
 
     const [searchString , setSearchString] = useState('');
     const [category , setCategory] = useState<categoryType>('All')
+
+    
 
 
 

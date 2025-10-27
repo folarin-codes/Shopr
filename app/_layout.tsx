@@ -3,9 +3,13 @@ import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import { onAuthStateChanged } from 'firebase/auth';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import Toast from 'react-native-toast-message';
 import Splash from "./splash";
 
 export default function RootLayout() {
+
+
+ 
 
   onAuthStateChanged(auth, (user)=>{
 
@@ -36,7 +40,9 @@ export default function RootLayout() {
         <Stack.Screen name='(auth)'/>
         <Stack.Screen name='(tabs)'/>
         <Stack.Screen name='(home)'/>
-        </Stack>
+      </Stack>
+
+      <Toast/>
 
     </SafeAreaProvider>
  

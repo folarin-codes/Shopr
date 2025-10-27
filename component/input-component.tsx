@@ -1,7 +1,7 @@
 import { COLORS, SIZES } from "@/constants/theme";
 import Feather from '@expo/vector-icons/Feather';
 import React, { useState } from "react";
-import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Platform, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 
 type KeyboardType = 'default' | 'numeric' | 'email-address' | 'ascii-capable' | 'numbers-and-punctuation' | 'url' | 'number-pad' | 'phone-pad' | 'name-phone-pad' | 'decimal-pad' | 'twitter' | 'web-search' | 'visible-password';
 
@@ -117,8 +117,8 @@ const styles = StyleSheet.create({
         borderWidth:1,
         backgroundColor:COLORS.white,
         borderRadius:8,
-        height:50,
-        padding:10,
+        height:Platform.OS == 'ios'? 50 :'auto',
+        padding:Platform.OS == 'ios' ?10: 5 ,
         color: COLORS.primary,
         fontFamily:'regular',
         flexDirection:'row',

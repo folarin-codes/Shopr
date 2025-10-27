@@ -3,36 +3,44 @@ import Header from "@/component/header";
 import InputComponent from "@/component/input-component";
 import SafeView from "@/component/safeview";
 import { COLORS, SIZES } from "@/constants/theme";
-import signUpSchema from "@/validations/auth/sign-up.validation";
+import signInSchema from "@/validations/auth/sign-in.validation";
 import { Link, router } from "expo-router";
-import { useState } from "react";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { useMemo, useState } from "react";
 import { Image, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, View } from "react-native";
 import * as z from "zod";
+
+import Loader from "@/component/loader";
+import { auth } from "@/firebaseConfig";
+import { SaveItem } from "@/utils/secureStore";
+import Toast from "react-native-toast-message";
 
 
 
 
 const SignIn = ()=>{
 
+  const [loading , setLoading] = useState(false)
 
-    type SignUpFormData = z.infer<typeof signUpSchema>
+
+    type SignInFormData = z.infer<typeof signInSchema>
 
 
-    const[signUpForm , setSignUpForm] = useState<SignUpFormData>({
-        fullName:'',
+    const[signInForm , setSignInForm] = useState<SignInFormData>({
+       
         email:'',
         password:""
     })
 
 
-  const [errors, setErrors] = useState<Partial<Record<keyof SignUpFormData, string>>>({});
+  const [errors, setErrors] = useState<Partial<Record<keyof SignInFormData, string>>>({});
   const [passwordVisible, setPasswordVisible] = useState(false)
 
 
-  const validateField = (field: keyof SignUpFormData, value: string) => {
+  const validateField = (field: keyof SignInFormData, value: string) => {
     try {
       // Validate single field
-      signUpSchema.shape[field].parse(value);
+      signInSchema.shape[field].parse(value);
       // Clear error if validation passes
       setErrors(prev => ({ ...prev, [field]: undefined }));
     } catch (error) {
@@ -45,13 +53,13 @@ const SignIn = ()=>{
     }
   };
 
-  const handleInputChange = (field: keyof SignUpFormData, value: string) => {
-    setSignUpForm(prev => ({ ...prev, [field]: value }));
+  const handleInputChange = (field: keyof SignInFormData, value: string) => {
+    setSignInForm(prev => ({ ...prev, [field]: value }));
     
    
   };
 
-  const onBlur = (field: keyof SignUpFormData,value:string)=>{
+  const onBlur = (field: keyof SignInFormData,value:string)=>{
 
     if (value.trim()) {
       validateField(field, value);
@@ -61,9 +69,52 @@ const SignIn = ()=>{
   }
 
 
- 
+    const isFormValid = useMemo(() => {
+    try {
+      signInSchema.parse(signInForm);
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }, [signInForm]);
 
 
+  const handleSignIn = async (email:string , password:string)=>{
+
+    try{
+
+      setLoading(true)
+
+  signInWithEmailAndPassword(auth, email, password).then(result=>{
+
+    SaveItem('user', JSON.stringify(result.user))
+
+
+    router.navigate('/home')
+
+
+  }).catch(e=>{
+    Toast.show({type:'error',text1: e?.message})
+   
+  })
+
+
+}
+
+  
+
+  catch(e){
+    Toast.show({type:'error',text1: e?.message})
+
+  }
+
+  finally{
+    setLoading(false)
+  }
+
+
+
+  }
 
 
     return(
@@ -78,16 +129,16 @@ const SignIn = ()=>{
 
           
 
-                <InputComponent keyboardType="email-address"  onBlur={()=> onBlur('email', signUpForm.email)} error={errors.email} value={signUpForm.email} onChangeText={(email:string)=> handleInputChange('email',email)} placeHolder="Enter your email address" label="Email"/>
+                <InputComponent keyboardType="email-address"  onBlur={()=> onBlur('email', signInForm.email)} error={errors.email} value={signInForm.email} onChangeText={(email:string)=> handleInputChange('email',email)} placeHolder="Enter your email address" label="Email"/>
 
-                <InputComponent togglePasswordVisibility={()=> setPasswordVisible(!passwordVisible)} inputType="password" textVisible={passwordVisible} onBlur={()=> onBlur('password', signUpForm.password)} error={errors.password} value={signUpForm.password} onChangeText={(password:string)=> handleInputChange("password",password )} placeHolder="Enter Password" label="Password"/>
+                <InputComponent togglePasswordVisibility={()=> setPasswordVisible(!passwordVisible)} inputType="password" textVisible={passwordVisible} onBlur={()=> onBlur('password', signInForm.password)} error={errors.password} value={signInForm.password} onChangeText={(password:string)=> handleInputChange("password",password )} placeHolder="Enter Password" label="Password"/>
 
             </KeyboardAvoidingView>
 
             <View style={styles.secondaryContainer}>
                 <Text style={styles.policy}>Forgot your password? <Link href={'./forgot-password'} style={styles.bold}>Reset your password</Link> </Text>
 
-                <Button text="Login"  onpress={()=> router.push('/home')}/>
+                <Button text="Login" inactive={!isFormValid}  onpress={()=> handleSignIn(signInForm.email, signInForm.password)}/>
 
                 <View style={styles.cont}>
 
@@ -107,14 +158,10 @@ const SignIn = ()=>{
                   <Text style={styles.policy}>Don't have an account? <Text style={styles.bold} >Join</Text></Text>    
                 
                 </Link> 
-
-
-                
-
-
-               
-
             </View>
+
+
+            <Loader loading={loading}/>
 
             </ScrollView>
 

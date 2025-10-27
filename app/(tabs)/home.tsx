@@ -1,6 +1,7 @@
 import InputComponent from "@/component/input-component";
 import SafeView from "@/component/safeview";
 import { COLORS, SIZES } from "@/constants/theme";
+import userStore from "@/store/user.store";
 import EvilIcons from '@expo/vector-icons/EvilIcons';
 import { router } from "expo-router";
 import { useState } from "react";
@@ -8,6 +9,7 @@ import { Dimensions, FlatList, Image, Pressable, ScrollView, StyleSheet, Text, V
 import Bell from '../../assets/images/svg/bell.svg';
 import Filter from '../../assets/images/svg/filter.svg';
 import SavedFocused from '../../assets/images/svg/saved-focused.svg';
+
 
 const shopCategories = ['All', 'Tshirt', 'Jeans', 'Shoes', 'Belts'] as const
 
@@ -61,15 +63,10 @@ type categoryType = typeof shopCategories[number]
 
 const Home = ()=>{
 
-   
-
-
-
+    const {userInfo} = userStore();
+    
     const [searchString , setSearchString] = useState('');
     const [category , setCategory] = useState<categoryType>('All')
-
-    
-
 
 
     return(

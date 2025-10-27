@@ -12,6 +12,7 @@ import * as z from "zod";
 
 import Loader from "@/component/loader";
 import { auth } from "@/firebaseConfig";
+import userStore from "@/store/user.store";
 import { SaveItem } from "@/utils/secureStore";
 import Toast from "react-native-toast-message";
 
@@ -20,16 +21,16 @@ import Toast from "react-native-toast-message";
 
 const SignIn = ()=>{
 
+  type SignInFormData = z.infer<typeof signInSchema>
+
+  const {setUserInfo} = userStore();
+
   const [loading , setLoading] = useState(false)
 
 
-    type SignInFormData = z.infer<typeof signInSchema>
-
-
-    const[signInForm , setSignInForm] = useState<SignInFormData>({
-       
-        email:'',
-        password:""
+  const[signInForm , setSignInForm] = useState<SignInFormData>({
+    email:'',
+    password:""
     })
 
 
@@ -88,6 +89,8 @@ const SignIn = ()=>{
   signInWithEmailAndPassword(auth, email, password).then(result=>{
 
     SaveItem('user', JSON.stringify(result.user))
+
+    setUserInfo({displayName:result.user.displayName, email:result.user.email})
 
 
     router.navigate('/home')

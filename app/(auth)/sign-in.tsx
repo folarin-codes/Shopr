@@ -121,7 +121,7 @@ const SignIn = ()=>{
 
 
     return(
-        <SafeView>
+        <SafeView testID="main-view">
             <Header title="Login to your account" text="It's great to see you again."/>
 
             <ScrollView>
@@ -141,7 +141,7 @@ const SignIn = ()=>{
             <View style={styles.secondaryContainer}>
                 <Text style={styles.policy}>Forgot your password? <Link href={'./forgot-password'} style={styles.bold}>Reset your password</Link> </Text>
 
-                <Button text="Login" inactive={!isFormValid}  onpress={()=> handleSignIn(signInForm.email, signInForm.password)}/>
+                <Button testId="login" text="Login" inactive={!isFormValid}  disabled={!isFormValid} onpress={()=> handleSignIn(signInForm.email, signInForm.password)}/>
 
                 <View style={styles.cont}>
 

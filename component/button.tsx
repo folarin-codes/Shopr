@@ -11,12 +11,14 @@ interface ButtonProps {
     style ?: {},
     inactive ?: boolean,
     isLoading ?: boolean,
-    textColor?: string
+    textColor?: string,
+    testId?: string,
+    disabled?: boolean
 }
 
-const Button = ({renderLeftIcon, renderRightIcon, icon, onpress, text, style, inactive, isLoading,textColor}: ButtonProps) => {
+const Button = ({renderLeftIcon, renderRightIcon, icon, onpress, text, style, inactive, isLoading,textColor, testId, disabled}: ButtonProps) => {
     return(
-        <TouchableOpacity style={[ styles.button,  {backgroundColor:inactive ? COLORS.inactive :'black',  }, style]} onPress={()=>{
+        <TouchableOpacity disabled={disabled} testID={testId} style={[ styles.button,  {backgroundColor:inactive ? COLORS.inactive :'black',  }, style]} onPress={()=>{
 
             if(!inactive){
                 onpress()

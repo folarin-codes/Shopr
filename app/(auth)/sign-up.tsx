@@ -4,7 +4,7 @@ import InputComponent from "@/component/input-component";
 import Loader from "@/component/loader";
 import SafeView from "@/component/safeview";
 import { COLORS, SIZES } from "@/constants/theme";
-import { SaveItem } from "@/utils/secureStore";
+import { SaveItem } from "@/util/secureStore";
 import signUpSchema from "@/validations/auth/sign-up.validation";
 import { Link, router } from "expo-router";
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';

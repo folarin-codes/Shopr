@@ -1,7 +1,7 @@
 import { COLORS, SIZES } from "@/constants/theme";
 import Feather from '@expo/vector-icons/Feather';
 import React, { useState } from "react";
-import { Platform, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Platform, Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 
 type KeyboardType = 'default' | 'numeric' | 'email-address' | 'ascii-capable' | 'numbers-and-punctuation' | 'url' | 'number-pad' | 'phone-pad' | 'name-phone-pad' | 'decimal-pad' | 'twitter' | 'web-search' | 'visible-password';
 
@@ -43,7 +43,7 @@ const InputComponent = ({label , renderIconLeft, renderIconRight, icon, keyboard
             }
             
 
-            <View  style={[styles.input, {borderColor: focused ? COLORS.primary : COLORS.input}, {borderColor:error ?'red':COLORS.input}]} >
+            <Pressable onPress={()=> {setFocused(true); console.log('i was clicked')}}  style={[styles.input, {borderColor: focused ? COLORS.primary : COLORS.input}, {borderColor:error ?'red':COLORS.input}]} >
 
           
 
@@ -51,7 +51,11 @@ const InputComponent = ({label , renderIconLeft, renderIconRight, icon, keyboard
                     {
                     renderIconLeft && icon
                 }
-                    <TextInput hitSlop={30} autoCorrect={false}  style={[style, {fontFamily:'medium', color:COLORS.primary}]}  secureTextEntry={textVisible} value={value} onChangeText={onChangeText} placeholder={placeHolder} keyboardType={keyboardType}  onBlur={()=> {setFocused(false); onBlur() }} onFocus={()=>  setFocused(true)} />
+                    <TextInput onEndEditing={()=> {setFocused(false); onBlur() }} hitSlop={300} autoCorrect={false}  style={[style, {fontFamily:'medium', color:COLORS.primary}]}  secureTextEntry={textVisible} value={value} onChangeText={onChangeText} placeholder={placeHolder} keyboardType={keyboardType}  
+                    
+                    // onBlur={()=> {setFocused(false); onBlur() }} 
+                    
+                    onFocus={()=>  setFocused(true)} />
 
                 </View>
      
@@ -84,7 +88,7 @@ const InputComponent = ({label , renderIconLeft, renderIconRight, icon, keyboard
 
 
 
-            </View>
+            </Pressable>
           
             {
                 error && <Text style={styles.error}>{error}</Text>

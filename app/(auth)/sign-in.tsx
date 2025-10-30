@@ -13,7 +13,8 @@ import * as z from "zod";
 import Loader from "@/component/loader";
 import { auth } from "@/firebaseConfig";
 import userStore from "@/store/user.store";
-import { SaveItem } from "@/utils/secureStore";
+import { SaveItem } from "@/util/secureStore";
+import triggerLocalNotification from "@/util/sendLocalNotifications";
 import Toast from "react-native-toast-message";
 
 
@@ -91,6 +92,8 @@ const SignIn = ()=>{
     SaveItem('user', JSON.stringify(result.user))
 
     setUserInfo({displayName:result.user.displayName, email:result.user.email})
+
+    triggerLocalNotification({title:'Login alert!', body:"You just logged in to your app", timeInSeconds:5})
 
 
     router.navigate('/home')

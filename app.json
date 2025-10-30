@@ -15,10 +15,11 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "black"
+        "backgroundColor": "#000000"
       },
-      "edgeToEdgeEnabled": true,
-      "package": "com.shopr"
+      "edgeToEdgeEnabled": false,
+      "package": "com.shopr",
+      "googleServicesFile": "./google-services.json"
     },
     "web": {
       "bundler": "metro",
@@ -33,7 +34,7 @@
           "image": "./assets/images/ivon.png",
           "imageWidth": 200,
           "resizeMode": "contain",
-          "backgroundColor": "black"
+          "backgroundColor": "#000000"
         }
       ],
       "expo-secure-store"

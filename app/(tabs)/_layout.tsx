@@ -13,11 +13,22 @@ import Saved from '../../assets/images/svg/saved.svg';
 import Search from '../../assets/images/svg/search.svg';
 import SearchFocused from '../../assets/images/svg/searchActive.svg';
 
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+
+
+
+
 
 const TabIcon= ({focused, iconActive, iconInactive, iconName} )=>{
 
+
+
+
+
+
+
     return(
-        <View style={{alignItems:"center", paddingVertical:20, width:Dimensions.get('screen').width*.15, gap:5}}>
+        <View style={{alignItems:"center", paddingTop:20, width:Dimensions.get('screen').width*.25, gap:5}}>
             {
                 focused ? iconActive : iconInactive
             }
@@ -33,8 +44,17 @@ const TabIcon= ({focused, iconActive, iconInactive, iconName} )=>{
 
 
 const TabLayOut = ()=>{
+
+
+
+  const insets = useSafeAreaInsets()
+
+//   NavigationBar.setStyle('dark')
+
+
+
     return (
-        <Tabs screenOptions={{headerShown:false, tabBarStyle:{paddingTop:10,  alignContent:'center',height:88, paddingHorizontal:20 }}}>
+        <Tabs screenOptions={{headerShown:false, tabBarStyle:{paddingTop:10,  alignContent:'center',height:88, paddingHorizontal:20, marginBottom:insets.bottom}}}>
             <Tabs.Screen options={{
                 title:'',
           

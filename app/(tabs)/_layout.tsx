@@ -1,7 +1,7 @@
 import { COLORS } from "@/constants/theme";
 import { Tabs } from "expo-router";
 import React from "react";
-import { Dimensions, Text, View } from "react-native";
+import { Dimensions, Platform, Text, View } from "react-native";
 import Home from '../../assets/images/svg/Home.svg';
 import AccountFocused from '../../assets/images/svg/account-focused.svg';
 import Account from '../../assets/images/svg/account.svg';
@@ -54,7 +54,7 @@ const TabLayOut = ()=>{
 
 
     return (
-        <Tabs screenOptions={{headerShown:false, tabBarStyle:{paddingTop:10,  alignContent:'center',height:88, paddingHorizontal:20, marginBottom:insets.bottom}}}>
+        <Tabs screenOptions={{headerShown:false, tabBarStyle:{paddingTop:10,  alignContent:'center',height:88, paddingHorizontal:20, marginBottom:Platform.OS =='android'? insets.bottom: 5}}}>
             <Tabs.Screen options={{
                 title:'',
           
